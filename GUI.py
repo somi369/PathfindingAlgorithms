@@ -73,7 +73,10 @@ class GUI:
     def ClearWallNodeClick(self):
         for row in range(0,self._sizeOfBoard):
             for column in range(0,self._sizeOfBoard):
-                if self._myButtons[row][column]["background"] == "black" or self._myButtons[row][column]["background"] == "blue":
+                if (self._myButtons[row][column]["background"] == "black" or 
+                    self._myButtons[row][column]["background"] == "blue" or
+                    self._myButtons[row][column]["background"] == "lightBlue" or
+                    self._myButtons[row][column]["background"] == "green"):
                     self._myButtons[row][column].config(bg="white")
 
     def DijkstraAlg(self):
@@ -99,7 +102,7 @@ class GUI:
 
         foundEndNode = False
         first = True
-
+        finalNode = Node(-1,-1)
         while not foundEndNode and len(inQueueNodes)!=0 :
             time.sleep(0.5)
             #Color explored nodes
@@ -148,11 +151,17 @@ class GUI:
             inQueueNodes = newInQueueNodes
             for node in inQueueNodes:
                 if node.nodeType == NodeType.EndNode:
+                    finalNode=node
                     foundEndNode = True
                 else:
                     self._myButtons[node.rowIdx][node.columnIdx].config(bg="lightBlue")
-            #show path
-        print("finished")
+
+        if finalNode.nodeType == NodeType.EndNode:
+            currentNode = finalNode.previousNode
+            while (currentNode.nodeType!=NodeType.StartNode):
+                time.sleep(0.5)
+                self._myButtons[currentNode.rowIdx][currentNode.columnIdx].config(bg="green")
+                currentNode = currentNode.previousNode
 
     def StartClick(self):
         threading.Thread(target=self.DijkstraAlg).start()

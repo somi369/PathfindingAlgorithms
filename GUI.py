@@ -39,7 +39,7 @@ class GUI:
         self._menubar.add_command(label="Start", command=self.StartClick)
         #Etc
         self._cursorType = 2 
-        self._algNum = 1
+        self._algNum = 0
         self._myButtons = defaultdict(list)
         for row in range(0,self._sizeOfBoard):
             for column in range(0,self._sizeOfBoard):
@@ -92,7 +92,7 @@ class GUI:
             return True
         else:
             return False
-            
+
     def HasExploreableAdjacentNodes(self, nodeMatrix, row, column):
         if self.IsExploreableNode(nodeMatrix,row,column-1) or self.IsExploreableNode(nodeMatrix,row-1,column) or self.IsExploreableNode(nodeMatrix,row,column+1) or self.IsExploreableNode(nodeMatrix,row+1,column) :
             return True
@@ -124,7 +124,7 @@ class GUI:
         first = True
         finalNode = Node(-1,-1)
         while not foundEndNode and len(inQueueNodes)!=0 :
-            time.sleep(0.5)
+            time.sleep(0.3)
             #Color explored nodes
             if first:
                 #dont need to color starting node
@@ -179,7 +179,7 @@ class GUI:
         if finalNode.nodeType == NodeType.EndNode:
             currentNode = finalNode.previousNode
             while (currentNode.nodeType!=NodeType.StartNode):
-                time.sleep(0.5)
+                time.sleep(0.3)
                 self._myButtons[currentNode.rowIdx][currentNode.columnIdx].config(bg="green")
                 currentNode = currentNode.previousNode
         return True
